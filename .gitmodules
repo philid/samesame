@@ -1,0 +1,18 @@
+[submodule "node_modules/deep"]
+	path = node_modules/deep
+	url = ssh://git@dev.ubik.be/deep
+[submodule "node_modules/autobahn"]
+	path = node_modules/autobahn
+	url = ssh://git@dev.ubik.be/autobahn
+[submodule "www/libs/deep-ui"]
+	path = www/libs/deep-ui
+	url = ssh://git@dev.ubik.be/deep-ui
+[submodule "node_modules/deep-swig"]
+	path = node_modules/deep-swig
+	url = git@github.com:nomocas/deep-swig.git
+[submodule "node_modules/deep-node-fs"]
+	path = node_modules/deep-node-fs
+	url = git@github.com:nomocas/deep-node-fs.git
+[submodule "www/libs/deep-jquery-ajax"]
+	path = www/libs/deep-jquery-ajax
+	url = git@github.com:nomocas/deep-jquery-ajax.git
