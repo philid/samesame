@@ -6,30 +6,31 @@ define(["require", "deep/deep"],
 function(require, deep)
 {
     var aspect = {
-
-        load:deep.compose.parallele(function () {
-            console.log("view aspect : load : ", this);
-            if(this._externals)
-                this.externals = this._externals;
-            else
-                this._externals = this.externals;
-            return deep(this.externals).deepLoad(this, true);
+        load:deep.compose.after(function () {
+            var args = Array.prototype.slice.call(arguments);
+            return deep.all( 
+                deep(this.externals)
+                .deepLoad(this), 
+                deep(this)
+                .query("./renderables/["+args.join(",")+"]")
+                .values(function(values){
+                    return deep.utils.loadTreatments(values, self);
+                })
+            );
         }),
         refresh:deep.compose.after(function(){
-            console.log("view aspect : refresh : ", this);
-            var args = Array.prototype.slice.call(arguments);
             var self = this;
-            return deep(this)
-            .query("./renderables/["+args.join(",")+"]")
-            .values(function(values){
-                return deep.utils.loadTreatments(values, self);
+            var oldExternals = self.externals;
+            return this.load.apply(this, arguments)
+            .done(function(results){
+                self.externals = results.shift();
+                return deep.utils.applyTreatments(results.shift(), self, true);
             })
-            .done(function(treatments){
-                return deep.utils.applyTreatments(treatments, self, true);
+            .done(function(){
+                self.externals = oldExternals;
             });
         })
     };
-   // deep.utils.bottom(deep.ui.ViewController, homeController);
 
     return aspect;
 });

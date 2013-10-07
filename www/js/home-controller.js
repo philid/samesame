@@ -6,7 +6,7 @@ define(["require", "deep/deep", "/js/view-aspect.js"],
 function(require, deep)
 {
     var homeController = {
-
+        backgrounds:["js::/js/view-aspect.js"],
         deepLinkPath:"/home",
         externals:{
         },
@@ -15,15 +15,13 @@ function(require, deep)
                 how:"swig::./templates/home.html",
                 where:"dom.htmlOf::#content",
                 done:function (nodes) {
-                    console.log("Home rendered() : ");
+                    console.log("Home rendered()");
               
                 }
             }
         }
     };
 
-    var aspect = require("/js/view-aspect.js");
-    deep.utils.up(aspect, homeController);
     return homeController;
 });
 

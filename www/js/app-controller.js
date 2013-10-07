@@ -7,19 +7,19 @@ if(typeof define !== 'function')
 	var define = require('amdefine')(module);
 
 define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index"], function(require){
+
     deep.generalMode("public");
     
     timeline = {
         flatten:function(){
-            return deep.all(this.views.flatten(), this.gui.flatten(), this.routes.flatten())
-            .log()
+            return deep.all(this.views.flatten(), this.gui.flatten(), this.routes.flatten());
         },
-        views:deep.ocm("views"),
+        views:deep.ocm("views.dq"),
         gui:deep.ocm("gui"),
         routes:deep.ocm("routes")
     };
 
-    new deep.store.Selector("view", timeline.views, "view-selector");
+    deep.store.Selector.create("views", timeline.views, "view-selector");
     
     timeline.views.up({
         "public":{
@@ -35,8 +35,7 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index"], function(
     timeline.gui.up({
         "public":{
             home:function(){
-                console.log("gui.home");
-                return deep("view::home").log("selected views : ").log().load().refresh();
+                return deep("views::home").refresh();
             }
         },
         user:{
@@ -46,14 +45,11 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index"], function(
     });
 	
     var d = timeline.flatten();
-
-
     return function(){
-    //    $(document).ready(function  (e) {
+    //$(document).ready(function  (e) {
         d.done(function(){
             timeline.gui().home();
-            console.log("views : ", timeline.views());
         });
     //});
-    }
+    };
 });
