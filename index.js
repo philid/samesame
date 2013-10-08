@@ -15,7 +15,8 @@ var map = {
 	"/":{
 		page:"swig::./www/index.swig",
 		context:{
-			mainPath:"/js/main"
+			mainPath:"/js/main",
+			test:"json::./www/test.json"
 		}
 	}
 };
