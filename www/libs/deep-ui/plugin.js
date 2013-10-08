@@ -3,7 +3,7 @@ if (typeof define !== 'function') {
 	var swig = require("swig");
 }
 
-define(["require", "deep/deep", "./view-controller", "./app-controller", "./inputs-data-binder", "./stores/json", "./stores/ajax", "./stores/xml", "./stores/html", "./html-binder"],
+define(["require", "deep/deep", "./view-controller", "./app-controller", "./inputs-data-binder", "./html-binder"],
 function(require, deep, VC, AC, Binder)
 {
 	//_____________________________________________________________ Custom Chain Handler
