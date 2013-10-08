@@ -9,7 +9,9 @@ In early alpha state for now, the final aim is to provides a complete SPA/Thin S
 Install
 ===
 
+```shell
 git clone git@github.com:nomocas/deep-ajax-sandbox.git
 cd deep-ajax-sandbox
 git submodule update --init
 npm install swig
+```
