@@ -1,0 +1,16 @@
+{
+  "name": "deep-ui",
+  "version": "0.5.1",
+  "author": "Gilles Coomans",
+  "description": "ui related stuffs for deepjs",
+  "licenses": [
+  ],
+  "repository": {
+    "type":"git",
+    "url":"ssh://git@dev.ubik.be/deep-ui"
+  },
+  "dependencies": {
+    "deep":"git+ssh://git@dev.ubik.be/deep"
+  },
+  "main": "./plugin"
+}

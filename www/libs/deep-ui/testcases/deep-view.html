@@ -1,0 +1,143 @@
+<h2>deep-view : </h2>
+<script type="text/javascript">
+	//console.log("deep-copy.html loaded : ");
+(function(){
+	var deep = require("deep/deep");
+	var success = 0;
+	var failed = 0;
+	var count = 0;
+
+
+	function report(result)
+	{
+		//console.log("deep.load RESULT = ", result.equal);
+		count++;
+		//$("#content-container").append("<br/>("+count+") <strong>"+title+"</strong><br/>")
+		//$("#content-container").append("result : <br/>"+JSON.stringify(r, null, ' '));
+		//$("#content-container").append("<br/>result needed : <br/>"+JSON.stringify(result, null, ' '));
+		var ok = result.equal;
+		if(ok)
+			success++;
+		else
+		{
+			//console.log("deep-copy : needed result not matched : "+title+" ("+count+")")
+			failed++;
+		}
+	//	$("#content-container").append("<br/><strong  style=\"color:#"+((ok)?"000000":"FF0000")+"\">test :</strong>", JSON.stringify(ok, null, ' ')+"<br/>");
+	}
+
+	var tests = [];
+
+
+	
+
+
+
+
+
+
+//_______________________________________________
+
+var a = [{names:"john"},{names:"janis"},{names:"jim"}];
+
+deep(a)
+.render({
+    how:"swig::./templates/simple.html",
+    where:deep.ui.appendTo("#content-container"),
+    done:function($nodes){
+        $nodes.click( function(){ 
+            console.log("click"); 
+        })
+    }
+});
+
+//_______________________________________________
+
+var obj = {
+  backgrounds:[ deep.ui.ViewController ],
+  datas:{ names:"john" },
+  externals:{
+  		brol:"json::./json/simple.json"
+  },
+  renderables:{
+     brol:{
+        how:"swig::./templates/simple.html",
+        where:deep.ui.appendTo("#content-container"),
+        done:function($nodes){
+            $nodes.click( function(e){ 
+                console.log("click"); 
+            })
+        }
+     }
+  }
+}
+
+deep(obj).flatten().load().run('refresh');
+
+//_______________________________________________
+
+
+var MYVIEW = {
+  datas:{ names:"john" },
+  renderables:{
+     self:{
+        what:"first::#./datas",
+        how:"swig::./templates/simple.html",
+        where:deep.ui.htmlOf("#content-container"),
+        done:function(nodes){
+            $(nodes).click(function(e){ e.preventDefault();  console.log("click"); })
+        }
+     }
+  }
+}
+
+
+deep(MYVIEW)
+.bottom(deep.ui.ViewController)
+.run("refresh")
+.up({datas:{ names:"gilles"}})
+.run('refresh');
+
+console.log("___________________");
+
+//_______________________________________________
+
+
+
+deep({names:"jhon", zip:1346})
+.val("swig::templates/simple.html")
+.done(function(s){
+    console.log("res render : ",s);
+    var node = $(s).appendTo("#content-container");
+    node.find('#my-button')
+    .click(function(e){
+        console.log("click");
+        deep.ui.fromEditableHTML("#json-container")
+        .log();
+    })
+    
+    deep.ui.toEditableHTML({ title:"hello", test:[1] }, "#json-container")
+    .done(function(s){
+        return deep.ui.fromEditableHTML("#json-container")
+    })
+    .log();
+})
+
+})();
+
+
+/*
+deep
+.store("json")
+.get("json/simple.json")
+.log()
+.role("public")
+.store("json")
+.get("json/simple.json")
+.log()
+.role("user")
+.store("json")
+.get("json/simple.json")
+.log();
+*/
+</script>
