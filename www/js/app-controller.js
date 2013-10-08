@@ -6,8 +6,8 @@ THIS IS THE VIEW MAIN APP : so for browser side.
 if(typeof define !== 'function')
 	var define = require('amdefine')(module);
 
-define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index"], function(require){
-
+define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jquery-ajax/lib/json"], function(require){
+    deep.store.jqueryajax.JSON.createDefault();
     deep.generalMode("public");
     
     timeline = {
@@ -25,7 +25,10 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index"], function(
         "public":{
             home:{
                 backgrounds:["js::/js/home-controller.js"],
-                "view-selector":["home"]
+                "view-selector":["home"],
+                externals:{
+                    test:"json::/test.json"
+                }
             }
         },
         user:{},
