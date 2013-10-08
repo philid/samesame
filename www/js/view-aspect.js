@@ -10,7 +10,7 @@ function(require, deep)
             var args = Array.prototype.slice.call(arguments);
             return deep.all( 
                 deep(this.externals)
-                .deepLoad(this), 
+                .deepLoad(this),
                 deep(this)
                 .query("./renderables/["+args.join(",")+"]")
                 .values(function(values){

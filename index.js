@@ -6,7 +6,6 @@ var deep = require("deep");
 deep.globals.rootPath = __dirname+"/";
 require("deep-node-fs/json").createDefault();
 require("deep-swig")();
-// git describe --abbrev=0  --tags       // knowing last tag
 
 var express = require('express');
 var htmlMappers = require("autobahn/middleware/html");
@@ -38,7 +37,6 @@ app
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.end("error : 404");
 })
-//.use(require('connect-repl')())
 .listen(3000);
 
 
