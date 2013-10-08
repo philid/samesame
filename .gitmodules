@@ -13,3 +13,6 @@
 [submodule "www/libs/deep-jquery-ajax"]
 	path = www/libs/deep-jquery-ajax
 	url = git@github.com:nomocas/deep-jquery-ajax.git
+[submodule "www/libs/deep-local-storage"]
+	path = www/libs/deep-local-storage
+	url = git@github.com:nomocas/deep-local-storage.git
