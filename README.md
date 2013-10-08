@@ -1,8 +1,6 @@
-deepjs.org
-==========
+deep-ajax-sandbox
+====
 
-web site for deep.js lib
+Simple nodejs sandbox oriented for creating Single Page Application based on deepjs tools.
 
-Absolute aplha state for the moment. 
-
-Please callBack later...;)
+In early alpha state for now, the final aim is to provides a complete SPA/Thin Server sandbox.

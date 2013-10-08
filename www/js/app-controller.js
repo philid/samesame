@@ -1,5 +1,6 @@
 /**
  * @author Philippe Delabye <phil@chemicalrules.net>
+ * @contributors Gilles Coomans <gilles.coomans@gmail.com>
 THIS IS THE VIEW MAIN APP : so for browser side.
  */
 
@@ -7,8 +8,12 @@ if(typeof define !== 'function')
 	var define = require('amdefine')(module);
 
 define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/lib/main"], function(require){
+    
+    // creating stores and protocoles
     deep.store.jqueryajax.JSON.createDefault();
-    new deep.store.jstorage.Collection("myobjects");
+    deep.store.jstorage.Collection.create("myobjects");
+
+    // setting general OCM mode
     deep.generalMode("public");
     
     timeline = {
@@ -53,6 +58,14 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jque
     //$(document).ready(function  (e) {
         d.done(function(){
             timeline.gui().home();
+            /*
+                // uncomment this or try this in your browser js console
+                deep
+                .store("myobjects")
+                .post({ test:1 })
+                .get()
+                .log();
+             */
         });
     //});
     };
