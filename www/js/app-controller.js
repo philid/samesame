@@ -7,7 +7,7 @@ THIS IS THE VIEW MAIN APP : so for browser side.
 if(typeof define !== 'function')
 	var define = require('amdefine')(module);
 
-define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/lib/main"], function(require){
+define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index"], function(require){
     
     // creating stores and protocoles
     deep.store.jqueryajax.JSON.createDefault();
