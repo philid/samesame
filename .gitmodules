@@ -1,3 +1,15 @@
 [submodule "node_modules/autobahn"]
 	path = node_modules/autobahn
 	url = git@github.com:nomocas/autobahn.git
+[submodule "www/libs/deep-jquery-ajax"]
+	path = www/libs/deep-jquery-ajax
+	url = https://github.com/deepjs/deep-jquery-ajax.git
+[submodule "www/libs/deep-local-storage"]
+	path = www/libs/deep-local-storage
+	url = https://github.com/deepjs/deep-local-storage.git
+[submodule "node_modules/deep-swig"]
+	path = node_modules/deep-swig
+	url = https://github.com/deepjs/deep-swig.git
+[submodule "node_modules/deep-node-fs"]
+	path = node_modules/deep-node-fs
+	url = https://github.com/deepjs/deep-node-fs.git
