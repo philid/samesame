@@ -39,5 +39,3 @@ app
 	res.end("error : 404");
 })
 .listen(3000);
-
-
