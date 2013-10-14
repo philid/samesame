@@ -16,3 +16,6 @@
 [submodule "node_modules/deep"]
 	path = node_modules/deep
 	url = https://github.com/deepjs/deepjs.git
+[submodule "node_modules/deep-selector"]
+	path = node_modules/deep-selector
+	url = https://github.com/deepjs/deep-selector.git
