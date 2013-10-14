@@ -25,6 +25,7 @@ var statics = {
 	"/":[ { path:__dirname + '/www', options:{ maxAge: 86400000, redirect:false } } ],
 	"/libs/deep":[ { path:__dirname + '/node_modules/deep', options : { maxAge: 86400000, redirect:false } } ],
 	"/libs/deep-swig":[ { path:__dirname + '/node_modules/deep-swig', options : { maxAge: 86400000, redirect:false } } ],
+	"/libs/deep-selector":[ { path:__dirname + '/node_modules/deep-selector', options : { maxAge: 86400000, redirect:false } } ],
 	"/libs/rql":[ { path:__dirname + '/node_modules/rql', options : { maxAge: 86400000, redirect:false } } ]
 };
 
@@ -39,3 +40,4 @@ app
 	res.end("error : 404");
 })
 .listen(3000);
+

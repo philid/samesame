@@ -19,3 +19,6 @@
 [submodule "node_modules/deep-selector"]
 	path = node_modules/deep-selector
 	url = https://github.com/deepjs/deep-selector.git
+[submodule "node_modules/deep-mongo"]
+	path = node_modules/deep-mongo
+	url = git@github.com:deepjs/deep-mongo.git
