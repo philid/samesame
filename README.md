@@ -1,4 +1,4 @@
-deep-ajax-sandbox
+deep-spa-sandbox
 ====
 
 Simple nodejs sandbox oriented for creating Single Page Application based on deepjs tools.
@@ -10,8 +10,8 @@ Install
 ===
 
 ```shell
-git clone git@github.com:nomocas/deep-ajax-sandbox.git
-cd deep-ajax-sandbox
+git clone git@github.com:nomocas/deep-spa-sandbox.git
+cd deep-spa-sandbox
 git submodule update --init
 npm install swig
 ```
