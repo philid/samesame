@@ -11,7 +11,15 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-jque
     
     // creating stores and protocoles
     deep.store.jqueryajax.JSON.createDefault();
-    deep.store.jstorage.Collection.create("myobjects");
+    deep.store.jstorage.Collection.create("myobjects", null, null, {
+        methods:{
+            first:function(handler, arg1, arg2){
+                console.log("my objects rpc : call on : ", this, " - arg 1  :", arg1, " - arg2 : ", arg2);
+                this.test = "rpc powaaaaa";
+                return handler.save();
+            }
+        }
+    });
 
     // setting general OCM mode
     deep.generalMode("public");
