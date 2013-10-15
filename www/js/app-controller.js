@@ -73,6 +73,11 @@ define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-sele
                 .post({ test:1 })
                 .get()
                 .log();
+
+                // or
+
+                deep.protocoles.myobjects.runTests();
+
              */
         });
     //});
