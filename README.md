@@ -13,5 +13,5 @@ Install
 git clone git@github.com:nomocas/deep-spa-sandbox.git
 cd deep-spa-sandbox
 git submodule update --init
-npm install swig
+npm install
 ```

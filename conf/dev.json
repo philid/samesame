@@ -3,7 +3,7 @@
 	"mainPath":"/main",
 	"deploy":true,
 	"name":"desk-ib-dev",
-	"port":8132,
+	"port":3000,
 	"src":"sources",
 	"args":"--app ib --mode dev",
 	"mode":"dev",

@@ -1,26 +1,19 @@
 {
-  "name": "push-dev",
-  "author": "Smart asbl",
-  "version": "0.5.4",
+  "name": "deep-spa-sandbox",
+  "author": "Gilles Coomans <gilles.coomans@gmail.com>",
+  "version": "0.3.1",
   "contributors": [],
   "maintainers": [
-    {
-      "name": "Gilles Coomans",
-      "email": "gilles.coomans@gmail.com"
-    },
     {
       "name": "Philippe Delabye",
       "email": "phil@chemicalrules.net"
     }
   ],
   "dependencies": {
-    "pintura": ">=0.3.0",
-    "perstore": ">=0.3.0",
+    "amdefine":"*",
     "requirejs": ">=1.0.0",
-    "rql": ">=0.3.1",
-    "mongodb": ">=0.9.3",
-    "swig": "~1.0.0",
+    "swig": ">=1.0.0",
     "optimist": ">=0.3.1",
-    "marked": "~0.2.9"
+    "express":"3.4.1"
   }
 }
