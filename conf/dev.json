@@ -1,13 +1,12 @@
 {
 	"minified":false,
+	"mainPath":"/main",
 	"deploy":true,
-	"root":"/home/nodes/desks/desk-ib-dev",
 	"name":"desk-ib-dev",
 	"port":8132,
 	"src":"sources",
-	"args":"--app ib",
+	"args":"--app ib --mode dev",
 	"mode":"dev",
-	"uri":"desk-ib.dev.ubik.be",
 	"node":"0.10.2",
 	"updateSubmodule":true,
 	"npmInstall":false

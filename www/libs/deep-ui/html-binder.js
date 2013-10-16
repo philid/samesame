@@ -2,7 +2,7 @@ if(typeof define !== 'function'){
 	var define = require('amdefine')(module);
 }
 
-define(["require","deep-ui/plugin"], function(require){
+define(["require","./plugin"], function(require){
 
 	return function(deep)
 	{
