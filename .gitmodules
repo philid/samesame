@@ -1,6 +1,6 @@
 [submodule "node_modules/autobahn"]
 	path = node_modules/autobahn
-	url = git@github.com:nomocas/autobahn.git
+url=https://github.com/nomocas/autobahn.git
 [submodule "www/libs/deep-jquery-ajax"]
 	path = www/libs/deep-jquery-ajax
 	url = https://github.com/deepjs/deep-jquery-ajax.git
@@ -21,4 +21,4 @@
 	url = https://github.com/deepjs/deep-selector.git
 [submodule "node_modules/deep-mongo"]
 	path = node_modules/deep-mongo
-	url = git@github.com:deepjs/deep-mongo.git
+url=https://github.com/deepjs/deep-mongo.git
