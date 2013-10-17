@@ -1,4 +1,4 @@
-
+	
 module.exports = function(config){
 
 	var express = require('express');
@@ -37,6 +37,7 @@ module.exports = function(config){
 
 	console.log("server listening on port : ", config.port || 3000);
 
+	return app;
 
 	//require("deep-mongo").create("items", "mongodb://127.0.0.1:27017/test", "items2").runTests();
 };
