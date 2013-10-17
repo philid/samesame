@@ -10,7 +10,7 @@ Install
 ===
 
 ```shell
-git clone git@github.com:nomocas/deep-spa-sandbox.git
+git clone git@github.com:deepjs/deep-spa-sandbox.git
 cd deep-spa-sandbox
 git submodule update --init
 npm install
