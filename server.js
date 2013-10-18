@@ -5,6 +5,7 @@ module.exports = function(config){
 	var htmlMappers = require("autobahn/middleware/html");
 	var staticMappers = require("autobahn/middleware/statics");
 
+
 	var htmls = {
 		"/":{
 			page:"swig::./www/index.swig",
@@ -36,8 +37,9 @@ module.exports = function(config){
 	.listen(config.port || 3000);
 
 	console.log("server listening on port : ", config.port || 3000);
+	
+	//require("deep/deep-unit").run(deep.coreUnits);
+
 
 	return app;
-
-	//require("deep-mongo").create("items", "mongodb://127.0.0.1:27017/test", "items2").runTests();
 };
