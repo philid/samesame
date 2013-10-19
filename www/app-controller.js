@@ -4,7 +4,7 @@
 THIS IS THE VIEW MAIN APP : so for browser side.
  */
 
-define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-selector/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "/js/home-controller.js"], function(require){
+define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-selector/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "/js/home-controller.js" , "deep/deep-unit"], function(require){
     
     // creating stores and protocoles
     deep.store.jqueryajax.JSON.createDefault();
