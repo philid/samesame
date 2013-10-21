@@ -2,8 +2,8 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["require", "deep/deep", "./view-controller", "./app-controller", "./inputs-data-binder", "./html-binder"],
-function(require, deep, VC, AC, Binder)
+define(["require", "deep/deep", "./view-controller", "./app-controller"],
+function(require, deep, VC, AC)
 {
 	//_____________________________________________________________ Custom Chain Handler
 
@@ -73,7 +73,6 @@ function(require, deep, VC, AC, Binder)
 		},
 		ViewController: VC,
 		AppController: AC,
-		Binder: Binder,
 		render: function( how, what) {
 			return deep(deep.getAll([how, what]))
 			.done(function  (results) {
@@ -155,7 +154,6 @@ function(require, deep, VC, AC, Binder)
 		deep.chain.addInChain.apply(self,[func]);
 		return this;
 	});
-	require("./html-binder")(deep);
 	return deep;
 });
 
