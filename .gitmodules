@@ -22,3 +22,6 @@ url=https://github.com/nomocas/autobahn.git
 [submodule "node_modules/deep-mongo"]
 	path = node_modules/deep-mongo
 url=https://github.com/deepjs/deep-mongo.git
+[submodule "www/libs/deep-data-bind"]
+	path = www/libs/deep-data-bind
+	url = https://github.com/deepjs/deep-data-bind.git
