@@ -4,80 +4,87 @@
 THIS IS THE VIEW MAIN APP : so for browser side.
  */
 
-define(["require" , "deep/deep", "deep-ui/plugin", "deep-swig/index", "deep-selector/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "/js/home-controller.js" , "deep/deep-unit"], function(require){
+define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deep/deep-unit", "deep-data-bind/json-binder"], function(require, deep){
     
     // creating stores and protocoles
-    deep.store.jqueryajax.JSON.createDefault();
+    //deep.store.jqueryajax.JSON.createDefault();
     deep.protocoles.swig.createDefault();
-    deep.store.jstorage.Collection.create("myobjects", null, null, {
-        methods:{
-            first:function(handler, arg1, arg2){
-                console.log("my objects rpc : call on : ", this, " - arg 1  :", arg1, " - arg2 : ", arg2);
-                this.test = "rpc powaaaaa";
-                return handler.save();
-            }
-        }
-    });
+    deep.store.jstorage.Collection.create("myobjects");
 
-    // setting general OCM mode
-    deep.generalMode("public");
-    
-    timeline = {
-        flatten:function(){
-            return deep.all(this.views.flatten(), this.gui.flatten(), this.routes.flatten());
-        },
-        views:deep.ocm("views.dq"),
-        gui:deep.ocm("gui"),
-        routes:deep.ocm("routes")
-    };
 
-    deep.store.Selector.create("views", timeline.views, "view-selector");
-    
-    timeline.views.up({
-        "public":{
-            home:{
-                backgrounds:["js::/js/home-controller.js"],
-                "view-selector":["home"],
-                externals:{
-                    test:"json::/json/test.json"
+    var view = {
+        refreshList : function(){
+            return deep({
+                template:"swig::/templates/list.html",
+                context:{
+                    items:"myobjects::?"
                 }
+            })
+            .deepLoad()
+            .done(function(obj){
+                if(obj.context.items.length === 0)
+                {
+                    $("#items-list").html("");
+                    return view.showForm();
+                }
+                $("#items-list")
+                .html(obj.template(obj.context))
+                .find(".item")
+                .click(function(e){
+                    e.preventDefault();
+                    view.showForm($(this).attr("item-id"));
+                });
+            });
+        },
+        showForm : function(id)
+        {
+            var obj = null;
+            if(id)
+            {
+                $("#form-title").html("Edit : "+id);
+                obj = "myobjects::"+id;
             }
-        },
-        user:{},
-        admin:{}
-    });
-    
-    timeline.gui.up({
-        "public":{
-            home:function(){
-                return deep("views::home").refresh();
+            else
+            {
+                $("#form-title").html("Add");
+                obj = { hello:"world", title:"My title." };
             }
-        },
-        user:{
-
-        },
-        admin:{}
-    });
-	
-    var d = timeline.flatten();
+            return deep(obj)
+            .done(function(object){
+                return deep.ui.toJSONBind(object, "#item-form");
+            })
+            .done(function(binder){
+                $("<button>save</button>")
+                .appendTo("#item-form")
+                .click(function(e){
+                    e.preventDefault();
+                    var output = deep.ui.fromJSONBind("#item-form");
+                    var d = deep.store("myobjects");
+                    if(id)
+                        d.put(output);
+                    else
+                        d.post(output);
+                    d.done(function(success){
+                        view.refreshList();
+                    });
+                });
+            });
+        }
+    };
     return function(){
-    //$(document).ready(function  (e) {
-        d.done(function(){
-            timeline.gui().home();
-            /*
-                // uncomment this or try this in your browser js console
-                deep
-                .store("myobjects")
-                .post({ test:1 })
-                .get()
-                .log();
-
-                // or
-
-                deep.protocoles.myobjects.runTests();
-
-             */
+        view.refreshList();
+        $("<button>ADD</button>")
+        .prependTo("#content")
+        .click(function(e){
+            e.preventDefault();
+            view.showForm();
         });
-    //});
+        $("<button>Flush</button>")
+        .prependTo("#content")
+        .click(function(e){
+            e.preventDefault();
+            deep.protocoles.myobjects.flush();
+            view.refreshList();
+        });
     };
 });
