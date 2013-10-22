@@ -11,7 +11,6 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
     deep.protocoles.swig.createDefault();
     deep.store.jstorage.Collection.create("myobjects");
 
-
     var view = {
         refreshList : function(){
             return deep({
@@ -47,9 +46,9 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
             else
             {
                 $("#form-title").html("Add");
-                obj = { hello:"world", title:"My title." };
+                obj = { hello:"world", title:"My title.", obj:{ a:1 } };
             }
-            return deep(obj)
+            return deep.get(obj)
             .done(function(object){
                 return deep.ui.toJSONBind(object, "#item-form");
             })
@@ -65,6 +64,8 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
                     else
                         d.post(output);
                     d.done(function(success){
+                        if(!id) // we edit posted item only (puted item is already edited)
+                            view.showForm(success.id);
                         view.refreshList();
                     });
                 });
