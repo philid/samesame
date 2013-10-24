@@ -71,42 +71,40 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
             else
             {
                 $("#form-title").html("Add");
-                obj = { hello:"", title:"", obj:{ a:1 } };
+                obj = deep.Validator.createDefault(schema);
             }
             return deep.get(obj)
             .done(function(object){
                 return deep.ui.toJSONBind(object, "#item-form", schema, {
                     delegate:function(controller, property)
                     {
-                        if(!id)
-                            return;
-                        return self.save();
+                        if(id)
+                            return self.save();
                     }
                 });
             })
             .done(function(binder){
-                $("<button>save</button>")
-                .appendTo("#item-form")
-                .click(function(e){
-                    e.preventDefault();
-                    self.save();
-                });
+                if(!id)
+                    $("<button>save</button>")
+                    .appendTo("#item-form")
+                    .click(function(e){
+                        e.preventDefault();
+                        self.save();
+                    });
             });
         },
         save : function(){
             var output = deep.ui.fromJSONBind("#item-form", schema);
-            console.log("saving : ", output);
             deep.when(output)
             .done(function(output){
                 var hasId = output.id;
-                //console.log("app-controller : output getted :  ", output);
                 var d = deep.store("myobjects");
                 if(hasId)
                     d.put(output);
                 else
                     d.post(output);
                 d.done(function(success){
-                    console.log("send datas success : ", success);
+                    console.log("object saved : ", success);
                     if(!hasId) // we edit posted item only (puted item is already edited)
                         view.showForm(success.id);
                     view.refreshList();
