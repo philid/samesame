@@ -78,6 +78,7 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
                 return deep.ui.toJSONBind(object, "#item-form", schema, {
                     delegate:function(controller, property)
                     {
+                        console.log("property changed : ", property);
                         if(id)
                             return self.save();
                     }
@@ -94,8 +95,8 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
             });
         },
         save : function(){
-            var output = deep.ui.fromJSONBind("#item-form", schema);
-            deep.when(output)
+            var self = this;
+            return deep.ui.fromJSONBind("#item-form", schema)
             .done(function(output){
                 var hasId = output.id;
                 var d = deep.store("myobjects");
@@ -103,11 +104,11 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
                     d.put(output);
                 else
                     d.post(output);
-                d.done(function(success){
+                return d.done(function(success){
                     console.log("object saved : ", success);
                     if(!hasId) // we edit posted item only (puted item is already edited)
-                        view.showForm(success.id);
-                    view.refreshList();
+                        self.showForm(success.id);
+                    self.refreshList();
                 })
                 .fail(function(e){
                     console.log("error while sending datas : ", e);
