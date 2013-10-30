@@ -2,7 +2,7 @@
  * @author Gilles Coomans <gilles.coomans@gmail.com>
  */
 
-var deep = require("deep");
+var deep = require("deepjs");
 deep.globals.rootPath = __dirname+"/";
 require("deep-node-fs/json").createDefault();
 require("deep-swig").createDefault();
