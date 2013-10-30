@@ -22,3 +22,6 @@ url=https://github.com/deepjs/deep-mongo.git
 [submodule "www/libs/deep-data-bind"]
 	path = www/libs/deep-data-bind
 	url = https://github.com/deepjs/deep-data-bind.git
+[submodule "node_modules/deepjs"]
+	path = node_modules/deepjs
+	url = git@github.com:deepjs/deepjs.git
