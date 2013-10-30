@@ -4,7 +4,7 @@
 THIS IS THE VIEW MAIN APP : so for browser side.
  */
 
-define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deep/deep-unit", "deep-data-bind/json-binder"], function(require, deep){
+define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deepjs/deep-unit", "deep-data-bind/json-binder"], function(require, deep){
     
     var schema = {
         properties:{
@@ -31,9 +31,6 @@ define(["require" , "deep/deep", "deep-swig/index", "deep-jquery-ajax/lib/json",
     //deep.store.jqueryajax.JSON.createDefault();
     deep.protocoles.swig.createDefault();
     deep.store.jstorage.Collection.create("myobjects", null, schema);
-
-
-
 
     var view = {
         refreshList : function(){

@@ -1,10 +1,10 @@
 if(typeof define !== 'function')
 	var define = require('amdefine')(module);
 
-define(["require","deep/deep"],function (require)
+define(["require","deepjs/deep"],function (require)
 {
 
-	var deep = require("deep/deep");
+	var deep = require("deepjs/deep");
 
 
 	deep.protocoles.ajax = new deep.Store();

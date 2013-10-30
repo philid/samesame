@@ -5,7 +5,7 @@ if (typeof define !== 'function') {
 define(["require", "deep-ui/stores/ajax"],
 function(require)
 {
-    var deep = require("deep/deep");
+    var deep = require("deepjs/deep");
 
     deep.protocoles.xml = new deep.Store();
 

@@ -5,7 +5,6 @@ module.exports = function(config){
 	var htmlMappers = require("autobahn/middleware/html");
 	var staticMappers = require("autobahn/middleware/statics");
 
-
 	var htmls = {
 		"/":{
 			page:"swig::./www/index.swig",
@@ -37,9 +36,26 @@ module.exports = function(config){
 	.listen(config.port || 3000);
 
 	console.log("server listening on port : ", config.port || 3000);
-	
+
+	require("deep-mp3").create("mp3", "mongodb://127.0.0.1:27017/nomocas", "mp3s");
+
+	deep.store("mp3")
+	.run("rebuild", ["/Users/gilles/Documents/medias/MP3/__CLASSICAL_CONTEMPORARY__"])
+	.done(function(success){
+		console.log("\n\n************************************ list rebuilded *********************");
+		console.log("******************************** "+success+" elements inserted ******************\n\n");
+	})
+	.done(function(success){
+		deep.store("mp3").range(10,18, "meta.genre=").log();
+	});
+
+
+	//deep.store("mp3").range(100,150, "meta.genre=ne=").log();
+
+
+
 	// run all deep-core test cases
-	//require("deep/deep-unit").run(deep.coreUnits);
+	//require("deepjs/deep-unit").run(deep.coreUnits);
 	
 	return app;
 };

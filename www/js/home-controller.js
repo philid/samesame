@@ -2,7 +2,7 @@ if (typeof define !== 'function') {
     var define = require('amdefine')(module);
 }
 
-define(["require", "deep/deep", "./view-aspect.js"],
+define(["require", "deepjs/deep", "./view-aspect.js"],
 function(require, deep)
 {
     var homeController = {

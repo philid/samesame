@@ -24,7 +24,7 @@ if (typeof define !== 'function') {
 */
 define(function (require)
 {
-	var deep = require("deep/deep");
+	var deep = require("deepjs/deep");
 	var ViewController =
 	{
 		renderables:{

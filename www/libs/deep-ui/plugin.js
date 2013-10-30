@@ -2,7 +2,7 @@ if (typeof define !== 'function') {
 	var define = require('amdefine')(module);
 }
 
-define(["require", "deep/deep", "./view-controller", "./app-controller"],
+define(["require", "deepjs/deep", "./view-controller", "./app-controller"],
 function(require, deep, VC, AC)
 {
 	//_____________________________________________________________ Custom Chain Handler

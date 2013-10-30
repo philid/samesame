@@ -11,11 +11,11 @@ define(function(require){
 		//,"list-controller":true
 		//,"list-item-controller":true
 	};
-	var deep = require("deep/deep");
+	var deep = require("deepjs/deep");
 
 	require("deep-ui/plugin");
 	require("deep-swig/index")();
-	require("deep/deep-roles")(deep);
+	require("deepjs/deep-roles")(deep);
 
 
 

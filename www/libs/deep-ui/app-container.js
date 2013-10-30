@@ -15,7 +15,7 @@ if(typeof define !== 'function')
 
 define(["require","./plugin"], function AppControllerDefine(require){
 
-	var deep = require("deep/deep");
+	var deep = require("deepjs/deep");
 
 
   //__________________________________________________________________________________ CREATION
