@@ -37,6 +37,7 @@ module.exports = function(config){
 
 	console.log("server listening on port : ", config.port || 3000);
 
+/*
 	require("deep-mp3").create("mp3", "mongodb://127.0.0.1:27017/nomocas", "mp3s");
 
 	deep.store("mp3")
@@ -49,13 +50,19 @@ module.exports = function(config){
 		deep.store("mp3").range(10,18, "meta.genre=").log();
 	});
 
+*/
+
 
 	//deep.store("mp3").range(100,150, "meta.genre=ne=").log();
 
 
-
 	// run all deep-core test cases
-	//require("deepjs/deep-unit").run(deep.coreUnits);
 	
+	require("deep-mongo");  // load this modules to add its units to deep.coreUnits
+	require("deepjs/deep-unit").run(deep.coreUnits)
+	.done(function(s){
+		console.log("units executed : ", deep.coreUnits);
+	});
+
 	return app;
 };
