@@ -37,9 +37,8 @@ module.exports = function(config){
 
 	console.log("server listening on port : ", config.port || 3000);
 
-/*
+/*   // rebuild mp3 table then get a range on it
 	require("deep-mp3").create("mp3", "mongodb://127.0.0.1:27017/nomocas", "mp3s");
-
 	deep.store("mp3")
 	.run("rebuild", ["/Users/gilles/Documents/medias/MP3/__CLASSICAL_CONTEMPORARY__"])
 	.done(function(success){
@@ -49,11 +48,7 @@ module.exports = function(config){
 	.done(function(success){
 		deep.store("mp3").range(10,18, "meta.genre=").log();
 	});
-
 */
-
-
-	//deep.store("mp3").range(100,150, "meta.genre=ne=").log();
 
 
 	// run all deep-core test cases
