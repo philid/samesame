@@ -13,8 +13,7 @@ module.exports = function(config){
 		"/":{
 			page:"swig::./www/index.swig",
 			context:{
-				mainPath:config.mainPath || "/main",
-				test:"json::./www/json/test.json"
+				mainPath:config.mainPath || "/main"
 			}
 		}
 	};
@@ -56,7 +55,7 @@ module.exports = function(config){
 
    // rebuild mp3 table then get a range on it
 	/*deep.store("mp3")
-	.run("rebuild", ["/Users/gilles/Documents/medias/TEST_APP"])
+	.run("rebuild", ["/Users/gilles/Documents/medias/TEST_APP"])  // SET YOUR PATH TO MP3 Folder (make a copy before. No warranty on metas integrity.)
 	.done(function(success){
 		console.log("\n\n************************************ list rebuilded *********************");
 		console.log("******************************** "+success+" elements inserted ******************\n\n");
