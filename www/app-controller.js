@@ -6,106 +6,104 @@ THIS IS THE VIEW MAIN APP : so for browser side.
 
 define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deepjs/deep-unit", "deep-data-bind/json-binder"], function(require, deep){
     
-    var schema = {
-        properties:{
-            hello:{
-                type:"string",
-                description:"just a string.",
-                minLength:2,
-                "default":"world",
-                required:true
-            },
-            title:{
-                type:"string",
-                description:"just a title.",
-                required:false
-            },
-            obj:{
-                properties:{
-                    a:{ type:"number", required:true }
-                }
-            }
-        }
-    };
     // creating stores and protocoles
-    //deep.store.jqueryajax.JSON.createDefault();
+    deep.store.jqueryajax.JSON.create("mp3", "/mp3/");
     deep.protocoles.swig.createDefault();
-    deep.store.jstorage.Collection.create("myobjects", null, schema);
 
-    var view = {
+    var list = {
+        search:"",
+        range:{
+            start:0,
+            end:10
+        },
         refreshList : function(){
-            return deep({
-                template:"swig::/templates/list.html",
-                context:{
-                    items:"myobjects::?"
-                }
-            })
-            .deepLoad()
-            .done(function(obj){
+            var self = this;
+            return deep.all(
+                deep({
+                    template:"swig::/templates/list.html",
+                    context:{
+                    }
+                })
+                .deepLoad(),
+                deep.store("mp3").range(this.range.start, this.range.end, this.search)
+            )
+            .done(function(res){
+                var obj = res.shift();
+                self.range = res.shift();
+                obj.context.items = self.range.results;
+                obj.context.search = self.search;
                 if(obj.context.items.length === 0)
                 {
                     $("#items-list").html("");
-                    return view.showForm();
+                    return;
                 }
-                $("#items-list")
-                .html(obj.template(obj.context))
-                .find(".item")
+                var list = $("#items-list")
+                .html(obj.template(obj.context));
+
+                list.find(".item")
                 .click(function(e){
                     e.preventDefault();
-                    view.showForm($(this).attr("item-id"));
+                    form.show($(this).attr("item-id"));
+                });
+
+                list.find("#range-next-button")
+                .click(function(e){
+                    e.preventDefault();
+                    if(!self.range.hasNext)
+                        return;
+                    self.range.start = self.range.end + 1;
+                    self.range.end = self.range.start + 10;
+                    self.refreshList();
+                });
+
+                list.find("#range-previous-button")
+                .click(function(e){
+                    e.preventDefault();
+                    if(!self.range.hasPrevious)
+                        return;
+                    self.range.end = Math.max(self.range.start - 1, 10);
+                    self.range.start =  Math.max(0, self.range.end - 10);
+                    self.refreshList();
+                });
+
+                list.find("#search-mp3")
+                .change(function(e){
+                    e.preventDefault();
+                    console.log("input changed : ", $(this).val());
+                    self.search = $(this).val();
+                    self.refreshList();
                 });
             });
-        },
-        showForm : function(id)
+        }
+    };
+
+    var form = {
+        show : function(id)
         {
             var self = this;
-            var obj = null;
-            if(id)
-            {
-                $("#form-title").html("Edit : "+id);
-                obj = "myobjects::"+id;
-            }
-            else
-            {
-                $("#form-title").html("Add");
-                obj = deep.Validator.createDefault(schema);
-            }
-            return deep.get(obj)
+            $("#form-title").html("Edit : "+id);
+            return deep.get("mp3::"+id)
             .done(function(object){
-                return deep.ui.toJSONBind(object, "#item-form", schema, {
+                return deep.ui.toJSONBind(object, "#item-form", null, {
                     delegate:function(controller, property)
                     {
                         console.log("property changed : ", property);
-                        if(id)
-                            return self.save();
+                        return self.save();
                     }
                 });
-            })
-            .done(function(binder){
-                if(!id)
-                    $("<button>save</button>")
-                    .appendTo("#item-form")
-                    .click(function(e){
-                        e.preventDefault();
-                        self.save();
-                    });
             });
         },
         save : function(){
             var self = this;
-            return deep.ui.fromJSONBind("#item-form", schema)
+            return deep.ui.fromJSONBind("#item-form")
             .done(function(output){
-                var hasId = output.id;
-                var d = deep.store("myobjects");
-                if(hasId)
-                    d.put(output);
-                else
-                    d.post(output);
-                return d.done(function(success){
+                return deep.store("mp3")
+                .put(output)
+                .done(function(success){
                     console.log("object saved : ", success);
                     if(!hasId) // we edit posted item only (puted item is already edited)
-                        self.showForm(success.id);
-                    self.refreshList();
+                        self.show(success.id);
+                    list.refreshList();
                 })
                 .fail(function(e){
                     console.log("error while sending datas : ", e);
@@ -118,19 +116,6 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     };
 
     return function(){
-        view.refreshList();
-        $("<button>ADD</button>")
-        .prependTo("#content")
-        .click(function(e){
-            e.preventDefault();
-            view.showForm();
-        });
-        $("<button>Flush</button>")
-        .prependTo("#content")
-        .click(function(e){
-            e.preventDefault();
-            deep.protocoles.myobjects.flush();
-            view.refreshList();
-        });
+        list.refreshList();
     };
 });
