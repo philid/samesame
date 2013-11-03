@@ -14,29 +14,23 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
         search:"",
         range:{
             start:0,
-            end:10
+            end:9
         },
-        refreshList : function(){
+        refresh : function(){
             var self = this;
             return deep.all(
-                deep({
-                    template:"swig::/templates/list.html",
-                    context:{
-                    }
-                })
-                .deepLoad(),
+                deep.get("swig::/templates/list.html"),
                 deep.store("mp3").range(this.range.start, this.range.end, this.search)
             )
             .done(function(res){
-                var obj = res.shift();
+                var obj = {};
+                obj.template = res.shift();
                 self.range = res.shift();
+                obj.context = {};
                 obj.context.items = self.range.results;
                 obj.context.search = self.search;
-                if(obj.context.items.length === 0)
-                {
-                    $("#items-list").html("");
-                    return;
-                }
+                obj.context.range = self.range;
+
                 var list = $("#items-list")
                 .html(obj.template(obj.context));
 
@@ -52,8 +46,8 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                     if(!self.range.hasNext)
                         return;
                     self.range.start = self.range.end + 1;
-                    self.range.end = self.range.start + 10;
-                    self.refreshList();
+                    self.range.end = self.range.start + 9;
+                    self.refresh();
                 });
 
                 list.find("#range-previous-button")
@@ -61,17 +55,19 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                     e.preventDefault();
                     if(!self.range.hasPrevious)
                         return;
-                    self.range.end = Math.max(self.range.start - 1, 10);
-                    self.range.start =  Math.max(0, self.range.end - 10);
-                    self.refreshList();
+                    self.range.end = Math.max(self.range.start - 1, 9);
+                    self.range.start =  Math.max(0, self.range.end - 9);
+                    self.refresh();
                 });
 
                 list.find("#search-mp3")
                 .change(function(e){
                     e.preventDefault();
                     console.log("input changed : ", $(this).val());
+                    self.range.start = 0;
+                    self.range.end = 9;
                     self.search = $(this).val();
-                    self.refreshList();
+                    self.refresh();
                 });
             });
         }
@@ -87,7 +83,6 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 return deep.ui.toJSONBind(object, "#item-form", null, {
                     delegate:function(controller, property)
                     {
-                        console.log("property changed : ", property);
                         return self.save();
                     }
                 });
@@ -101,9 +96,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 .put(output)
                 .done(function(success){
                     console.log("object saved : ", success);
-                    if(!hasId) // we edit posted item only (puted item is already edited)
-                        self.show(success.id);
-                    list.refreshList();
+                    list.refresh();
                 })
                 .fail(function(e){
                     console.log("error while sending datas : ", e);
@@ -116,6 +109,6 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     };
 
     return function(){
-        list.refreshList();
+        list.refresh();
     };
 });

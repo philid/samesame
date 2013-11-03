@@ -34,7 +34,7 @@ module.exports = function(config){
 
 	var app = express();
 
-	//app.use(express.basicAuth('admin', 'test54'));
+	app.use(express.basicAuth('admin', 'test54'));
 	//app.use(express.cookieParser());
 	//app.use(express.cookieSession({"secret":"iuhdugzdibgijzerbigzerlbijlzerbliguriuzghmAOHRCIOHRMCUGUAH"}));
 
