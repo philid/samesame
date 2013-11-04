@@ -8,6 +8,8 @@ module.exports = function(config){
 	var staticMappers = require("autobahn/middleware/statics");
 	var restful = require("autobahn/middleware/restful");
 
+	require("deep-shell");
+
 	// ______________________ MAPS
 
 	var htmls = {
@@ -55,7 +57,7 @@ module.exports = function(config){
 
 	console.log("server listening on port : ", config.port || 3000);
 
-
+/*
 
    // rebuild mp3 table then get a range on it
 	deep.store("mp3")
@@ -68,7 +70,7 @@ module.exports = function(config){
 		deep.store("mp3").range(10,18, "meta.genre=").log();
 	});
 
-
+*/
 
 	// run all deep-core test cases
 	/*
@@ -78,6 +80,12 @@ module.exports = function(config){
 		console.log("units executed : ", deep.coreUnits);
 	});
 	*/
+
+	deep.shell("./node_modules/deep-mp3/")
+	.spawn("eyeD3")
+	.ls("./node_modules")
+	.pwd()
+	.log();
 
 	return app;
 };
