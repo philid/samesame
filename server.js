@@ -18,11 +18,14 @@ module.exports = function(config){
 		}
 	};
 
+	var mp3FolderPath = "/Users/gilles/Documents/medias/TEST_APP";
+
 	var statics = {
 		"/":[ { path:__dirname + '/www', options:{ maxAge: 86400000, redirect:false } } ],
 		"/libs/deepjs":[ { path:__dirname + '/node_modules/deepjs', options : { maxAge: 86400000, redirect:false } } ],
 		"/libs/deep-swig":[ { path:__dirname + '/node_modules/deep-swig', options : { maxAge: 86400000, redirect:false } } ],
-		"/libs/rql":[ { path:__dirname + '/node_modules/rql', options : { maxAge: 86400000, redirect:false } } ]
+		"/libs/rql":[ { path:__dirname + '/node_modules/rql', options : { maxAge: 86400000, redirect:false } } ],
+		"/files":[ { path:mp3FolderPath, options : { maxAge: 86400000, redirect:false } } ]
 	};
 
 	var services = {
@@ -32,11 +35,11 @@ module.exports = function(config){
 	// ______________________ CONSTRUCT APP
 
 	var app = express();
-
-	app.use(express.basicAuth('admin', 'test54'));
+	app.use(express.basicAuth('admin', 'test55'));
 	//app.use(express.cookieParser());
 	//app.use(express.cookieSession({"secret":"iuhdugzdibgijzerbigzerlbijlzerbliguriuzghmAOHRCIOHRMCUGUAH"}));
 
+	app.use("/files", express.directory(mp3FolderPath));
 	staticMappers.map(statics, app);
 
 	app
@@ -54,15 +57,15 @@ module.exports = function(config){
 
 
    // rebuild mp3 table then get a range on it
-	/*deep.store("mp3")
-	.run("rebuild", ["/Users/gilles/Documents/medias/TEST_APP"])  // SET YOUR PATH TO MP3 Folder (make a copy before. No warranty on metas integrity.)
+	deep.store("mp3")
+	.run("rebuild", [mp3FolderPath])  // SET YOUR PATH TO MP3 Folder (make a copy before. No warranty on metas integrity.)
 	.done(function(success){
 		console.log("\n\n************************************ list rebuilded *********************");
 		console.log("******************************** "+success+" elements inserted ******************\n\n");
 	})
 	.done(function(success){
 		deep.store("mp3").range(10,18, "meta.genre=").log();
-	});*/
+	});
 
 
 

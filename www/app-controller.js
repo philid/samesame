@@ -37,7 +37,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 list.find(".item")
                 .click(function(e){
                     e.preventDefault();
-                    form.show($(this).attr("item-id"));
+                    form.edit($(this).attr("item-id"));
                 });
 
                 list.find("#range-next-button")
@@ -74,12 +74,13 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     };
 
     var form = {
-        show : function(id)
+        edit : function(id)
         {
             var self = this;
             $("#form-title").html("Edit : "+id);
             return deep.get("mp3::"+id)
             .done(function(object){
+                player.play(object);
                 return deep.ui.toJSONBind(object, "#item-form", null, {
                     delegate:function(controller, property)
                     {
@@ -103,10 +104,24 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 });
             })
             .fail(function(e){
-                console.log("error while collecting datas : ", e.status, e.report);
+                console.log("error while collecting datas : ", e.status, e.report || e);
             });
         }
     };
+
+    var player = {
+        play:function(infos){
+            return deep.get("swig::/templates/player.html")
+            .done(function(template){
+                infos.firefox = window.navigator.userAgent.match(/Firefox/gi);
+                console.log("player on firefox : ", infos.firefox, window.navigator.userAgent);
+                $("#player").html(template(infos));
+            })
+            .fail(function (error) {
+                console.log("error while loading player template : ", e.status, e.report || e);
+            });
+        }
+    }
 
     return function(){
         list.refresh();

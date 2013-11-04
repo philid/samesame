@@ -9,7 +9,8 @@
 <body>
 	<div id="content">
 		<h2>List</h2>
-		<div id="items-list"></div>
+		<div id="items-list" style="margin-bottom:20px;"></div>
+		<div id="player"></div>
 		<h2 id="form-title"></h2>
 		<div id="item-form"></div>
 	</div>
