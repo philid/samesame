@@ -1,11 +1,15 @@
 <div> 
-	search : <input id="search-mp3" type="text" value="{{ search }}" />
+	search : <input id="search-mp3" type="text" value="{{ query }}" />
 	<ul id="mp3-collection">
-	{% for item in items %}
+	{% for item in results %}
 	<li class="item" item-id="{{ item.id }}"><a href="#"><strong> {{ item.meta.artist }}</strong> ({{ item.meta.year }}) - {{ item.meta.album }} - {{ item.meta.title }}</a></li>
 	{% endfor %}
 	</ul>
+	{% if hasPrevious %}
 	<button id="range-previous-button" >previous</button>
+	{% endif %}
+	{% if hasNext %}
 	<button id="range-next-button" >next</button>
-	<span id="range-state">{{ range.start }}-{{ range.end }}/{{ range.total }}</span>
+	{% endif %}
+	<span id="range-state">{{ start }}-{{ end }}/{{ total }}</span>
 </div>

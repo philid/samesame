@@ -1,6 +1,7 @@
 	
 module.exports = function(config){
 
+	var deep = require("deepjs");
 	var express = require('express');
 	
 	var htmlMappers = require("autobahn/middleware/html");

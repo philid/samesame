@@ -11,28 +11,23 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     deep.protocoles.swig.createDefault();
 
     var list = {
-        search:"",
         range:{
             start:0,
-            end:9
+            end:9,
+            query:""
         },
         refresh : function(){
             var self = this;
             return deep.all(
                 deep.get("swig::/templates/list.html"),
-                deep.store("mp3").range(this.range.start, this.range.end, this.search)
+                deep.store("mp3").range(this.range.start, this.range.end, this.range.query)
             )
             .done(function(res){
-                var obj = {};
-                obj.template = res.shift();
+                var template = res.shift();
                 self.range = res.shift();
-                obj.context = {};
-                obj.context.items = self.range.results;
-                obj.context.search = self.search;
-                obj.context.range = self.range;
 
                 var list = $("#items-list")
-                .html(obj.template(obj.context));
+                .html(template(self.range));
 
                 list.find(".item")
                 .click(function(e){
@@ -63,10 +58,9 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 list.find("#search-mp3")
                 .change(function(e){
                     e.preventDefault();
-                    console.log("input changed : ", $(this).val());
                     self.range.start = 0;
                     self.range.end = 9;
-                    self.search = $(this).val();
+                    self.range.query = $(this).val();
                     self.refresh();
                 });
             });
@@ -80,13 +74,16 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
             $("#form-title").html("Edit : "+id);
             return deep.get("mp3::"+id)
             .done(function(object){
-                player.play(object);
+                player.show(object);
                 return deep.ui.toJSONBind(object, "#item-form", null, {
                     delegate:function(controller, property)
                     {
                         return self.save();
                     }
                 });
+            })
+            .fail(function(e){
+                console.log("error while retrieving datas : ", e.status, e.report || e);
             });
         },
         save : function(){
@@ -110,18 +107,18 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     };
 
     var player = {
-        play:function(infos){
+        show:function(infos){
             return deep.get("swig::/templates/player.html")
             .done(function(template){
                 infos.firefox = window.navigator.userAgent.match(/Firefox/gi);
-                console.log("player on firefox : ", infos.firefox, window.navigator.userAgent);
                 $("#player").html(template(infos));
+                delete infos.firefox;
             })
             .fail(function (error) {
                 console.log("error while loading player template : ", e.status, e.report || e);
             });
         }
-    }
+    };
 
     return function(){
         list.refresh();
