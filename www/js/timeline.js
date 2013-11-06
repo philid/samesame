@@ -47,13 +47,24 @@ function(require, deep)
         	var timeline;
         	var data;
 
-	        
+			function getSelectedRow() {
+	            var row = undefined;
+	            var sel = timeline.getSelection();
+	            if (sel.length) {
+	                if (sel[0].row != undefined) {
+	                    row = sel[0].row;
+	                }
+	            }
+	            return row;
+	        }	   
+
             data = [
                 {
                     'start': new Date(2010,7,23),
                     'content': 'Conversation<br><img src="img/comments-icon.png" style="width:32px; height:32px;">'
                 },
                 {
+                    id:23,
                     'start': new Date(2010,7,23,23,0,0),
                     'content': 'Mail from boss<br><img src="img/mail-icon.png" style="width:32px; height:32px;">'
                 },
@@ -96,16 +107,23 @@ function(require, deep)
             // Instantiate our timeline object.
             timeline = new links.Timeline(document.getElementById('mytimeline'));
 
-            function onRangeChanged(properties) {
-                document.getElementById('info').innerHTML += 'rangechanged ' +
-                        properties.start + ' - ' + properties.end + '<br>';
+            function onSelect() {
+            	var row = getSelectedRow();
+            	var item = data[row];
+               console.log("Selecting object : event =", item);
+               console.log("Selecting object : data =", data);
             }
 
             // attach an event listener using the links events handler
-            links.events.addListener(timeline, 'rangechanged', onRangeChanged);
+            links.events.addListener(timeline, 'select', onSelect);
 
             // Draw our timeline with the created data and options
             timeline.draw(data, options);
+            timeline.addItem({
+            		id:5555,
+                    'start': new Date(2010,7,30),
+                    'content': 'vrrrrrrrrrrrrrrrrr'
+                })
 	        
             // var self = this;
             // return deep.all(
