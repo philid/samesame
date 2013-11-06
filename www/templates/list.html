@@ -2,7 +2,7 @@
 	search : <input id="search-mp3" type="text" value="{{ query }}" />
 	<ul id="mp3-collection">
 	{% for item in results %}
-	<li class="item" item-id="{{ item.id }}"><a href="#"><strong> {{ item.meta.artist }}</strong> ({{ item.meta.year }}) - {{ item.meta.album }} - {{ item.meta.title }}</a></li>
+	<li class="item" item-id="{{ item.id }}"><a href="#"><strong> {{ item.title }}</strong> ({{ item.text }}) - {{ item.date }}</a></li>
 	{% endfor %}
 	</ul>
 	{% if hasPrevious %}

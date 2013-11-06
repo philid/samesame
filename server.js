@@ -8,8 +8,6 @@ module.exports = function(config){
 	var staticMappers = require("autobahn/middleware/statics");
 	var restful = require("autobahn/middleware/restful");
 
-	require("deep-shell");
-
 	// ______________________ MAPS
 
 	var htmls = {
@@ -21,28 +19,23 @@ module.exports = function(config){
 		}
 	};
 
-	var mp3FolderPath = "/Users/gilles/Documents/medias/TEST_APP";
-
+	
 	var statics = {
 		"/":[ { path:__dirname + '/www', options:{ maxAge: 86400000, redirect:false } } ],
 		"/libs/deepjs":[ { path:__dirname + '/node_modules/deepjs', options : { maxAge: 86400000, redirect:false } } ],
 		"/libs/deep-swig":[ { path:__dirname + '/node_modules/deep-swig', options : { maxAge: 86400000, redirect:false } } ],
-		"/libs/rql":[ { path:__dirname + '/node_modules/rql', options : { maxAge: 86400000, redirect:false } } ],
-		"/files":[ { path:mp3FolderPath, options : { maxAge: 86400000, redirect:false } } ]
+		"/libs/rql":[ { path:__dirname + '/node_modules/rql', options : { maxAge: 86400000, redirect:false } } ]
 	};
 
 	var services = {
-		"/mp3/:id?":require("deep-mp3").create("mp3", "mongodb://127.0.0.1:27017/nomocas", "mp3s")
+		"/entry/:id?":require("deep-mongo").create("entry", "mongodb://127.0.0.1:27017/permagenda", "entry")
 	};
 
 	// ______________________ CONSTRUCT APP
 
 	var app = express();
 	app.use(express.basicAuth('admin', 'test55'));
-	//app.use(express.cookieParser());
-	//app.use(express.cookieSession({"secret":"iuhdugzdibgijzerbigzerlbijlzerbliguriuzghmAOHRCIOHRMCUGUAH"}));
 
-	app.use("/files", express.directory(mp3FolderPath));
 	staticMappers.map(statics, app);
 
 	app
@@ -57,20 +50,6 @@ module.exports = function(config){
 
 	console.log("server listening on port : ", config.port || 3000);
 
-/*
-
-   // rebuild mp3 table then get a range on it
-	deep.store("mp3")
-	.run("rebuild", [mp3FolderPath])  // SET YOUR PATH TO MP3 Folder (make a copy before. No warranty on metas integrity.)
-	.done(function(success){
-		console.log("\n\n************************************ list rebuilded *********************");
-		console.log("******************************** "+success+" elements inserted ******************\n\n");
-	})
-	.done(function(success){
-		deep.store("mp3").range(10,18, "meta.genre=").log();
-	});
-
-*/
 
 	// run all deep-core test cases
 	/*
@@ -80,12 +59,6 @@ module.exports = function(config){
 		console.log("units executed : ", deep.coreUnits);
 	});
 	*/
-
-	deep.shell("./node_modules/deep-mp3/")
-	.spawn("eyeD3")
-	.ls("./node_modules")
-	.pwd()
-	.log();
 
 	return app;
 };

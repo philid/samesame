@@ -25,6 +25,3 @@ url=https://github.com/deepjs/deep-mongo.git
 [submodule "node_modules/deepjs"]
 	path = node_modules/deepjs
 	url = git@github.com:deepjs/deepjs.git
-[submodule "node_modules/deep-mp3"]
-	path = node_modules/deep-mp3
-	url = git@github.com:nomocas/deep-mp3.git

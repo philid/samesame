@@ -29,3 +29,11 @@ else
     });
 
 
+var    repl = require("repl");
+
+
+repl.start({
+  prompt: "node via stdin> ",
+  input: process.stdin,
+  output: process.stdout
+});

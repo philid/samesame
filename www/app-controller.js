@@ -4,78 +4,51 @@
 THIS IS THE VIEW MAIN APP : so for browser side.
  */
 
-define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deepjs/deep-unit", "deep-data-bind/json-binder"], function(require, deep){
+define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deepjs/deep-unit", "deep-data-bind/json-binder", "./js/timeline.js"], function(require, deep){
     
     // creating stores and protocoles
-    deep.store.jqueryajax.JSON.create("mp3", "/mp3/");
+    deep.store.jqueryajax.JSON.create("entry", "/entry/");
     deep.protocoles.swig.createDefault();
 
-    var list = {
-        range:{
-            start:0,
-            end:9,
-            query:""
-        },
-        refresh : function(){
-            var self = this;
-            return deep.all(
-                deep.get("swig::/templates/list.html"),
-                deep.store("mp3").range(this.range.start, this.range.end, this.range.query)
-            )
-            .done(function(res){
-                var template = res.shift();
-                self.range = res.shift();
 
-                var list = $("#items-list")
-                .html(template(self.range));
+    var timeline = require( "./js/timeline.js");
 
-                list.find(".item")
-                .click(function(e){
-                    e.preventDefault();
-                    form.edit($(this).attr("item-id"));
-                });
+    var entrySchema = {
+    	properties:{
+    		title:{ type:"string", description:"a title for your entry."},
+    		text:{ type:"string", description:"a text for your entry."},
+    		date:{ type:"number", description:"a date for your entry.", "default":new Date().valueOf()}
+    	}
+    }
 
-                list.find("#range-next-button")
-                .click(function(e){
-                    e.preventDefault();
-                    if(!self.range.hasNext)
-                        return;
-                    self.range.start = self.range.end + 1;
-                    self.range.end = self.range.start + 9;
-                    self.refresh();
-                });
 
-                list.find("#range-previous-button")
-                .click(function(e){
-                    e.preventDefault();
-                    if(!self.range.hasPrevious)
-                        return;
-                    self.range.end = Math.max(self.range.start - 1, 9);
-                    self.range.start =  Math.max(0, self.range.end - 9);
-                    self.refresh();
-                });
-
-                list.find("#search-mp3")
-                .change(function(e){
-                    e.preventDefault();
-                    self.range.start = 0;
-                    self.range.end = 9;
-                    self.range.query = $(this).val();
-                    self.refresh();
-                });
-            });
-        }
-    };
+    timeline.delegateEdit = function(id){
+    	form.edit(id);
+    }
+    
 
     var form = {
+    	add : function(id)
+        {
+            var self = this;
+            $("#form-title").html("Add entry ");
+            return deep.ui.toJSONBind(deep.Validator.createDefault(entrySchema), "#item-form", entrySchema)
+            .done(function(binder){
+            	$('<button>save</button>')
+            	.appendTo("#item-form")
+            	.click(function(e){
+            		e.preventDefault();
+            		self.save(true);
+            	});
+            });
+        },
         edit : function(id)
         {
             var self = this;
             $("#form-title").html("Edit : "+id);
-            return deep.get("mp3::"+id)
+            return deep.get("entry::"+id)
             .done(function(object){
-                player.show(object);
-                return deep.ui.toJSONBind(object, "#item-form", null, {
+                return deep.ui.toJSONBind(object, "#item-form", entrySchema, {
                     delegate:function(controller, property)
                     {
                         return self.save();
@@ -86,15 +59,18 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
                 console.log("error while retrieving datas : ", e.status, e.report || e);
             });
         },
-        save : function(){
+        save : function(post){
             var self = this;
-            return deep.ui.fromJSONBind("#item-form")
+            return deep.ui.fromJSONBind("#item-form", entrySchema)
             .done(function(output){
-                return deep.store("mp3")
-                .put(output)
-                .done(function(success){
+                var d = deep.store("entry");
+                if(post)
+					d.post(output);
+                else
+					d.put(output);
+                d.done(function(success){
                     console.log("object saved : ", success);
-                    list.refresh();
+                    timeline.refresh();
                 })
                 .fail(function(e){
                     console.log("error while sending datas : ", e);
@@ -106,21 +82,13 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
         }
     };
 
-    var player = {
-        show:function(infos){
-            return deep.get("swig::/templates/player.html")
-            .done(function(template){
-                infos.firefox = window.navigator.userAgent.match(/Firefox/gi);
-                $("#player").html(template(infos));
-                delete infos.firefox;
-            })
-            .fail(function (error) {
-                console.log("error while loading player template : ", e.status, e.report || e);
-            });
-        }
-    };
-
     return function(){
-        list.refresh();
+        timeline.refresh();
+        $('<button>add</button>')
+		.prependTo("body")
+		.click(function(e){
+			e.preventDefault();
+			form.add();
+		});
     };
 });
