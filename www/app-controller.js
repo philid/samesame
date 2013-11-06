@@ -14,33 +14,33 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     var timeline = require( "./js/timeline.js");
 
     var entrySchema = {
-    	properties:{
-    		title:{ type:"string", description:"a title for your entry."},
-    		text:{ type:"string", description:"a text for your entry."},
-    		date:{ type:"number", description:"a date for your entry.", "default":new Date().valueOf()}
-    	}
-    }
+		properties:{
+			start:{ type:"number", description:"a start date for your entry.", "default":new Date().valueOf()},
+			end:{ type:"number", description:"a end date for your entry.", required:false},
+			content:{ type:"string", description:"the html of the entry"}
+		}
+    };
 
 
     timeline.delegateEdit = function(id){
-    	form.edit(id);
-    }
+		form.edit(id);
+    };
     
 
     var form = {
-    	add : function(id)
+		add : function(id)
         {
             var self = this;
             $("#form-title").html("Add entry ");
             return deep.ui.toJSONBind(deep.Validator.createDefault(entrySchema), "#item-form", entrySchema)
             .done(function(binder){
-            	$('<button>save</button>')
-            	.appendTo("#item-form")
-            	.click(function(e){
-            		e.preventDefault();
-            		self.save(true);
-            	});
-            });
+				$('<button>save</button>')
+				.appendTo("#item-form")
+				.click(function(e){
+					e.preventDefault();
+					self.save(true);
+				});
+			});
         },
         edit : function(id)
         {
@@ -83,6 +83,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     };
 
     return function(){
+        timeline.create();
         timeline.refresh();
         $('<button>add</button>')
 		.prependTo("body")

@@ -5,59 +5,58 @@ if (typeof define !== 'function') {
 define(["require", "deepjs/deep"],
 function(require, deep)
 {
-    var timeline = {
-    	query:"",
+
+	var timeline;
+	var data;
+	var options = {
+		'width':  '100%',
+		'height': '300px',
+		'editable': true,   // enable dragging and editing events
+		'style': 'box'
+	};
+
+	var getSelectedRow = function() {
+        var row;
+        var sel = timeline.getSelection();
+        if (sel.length) {
+            if (sel[0].row !== undefined) {
+                row = sel[0].row;
+            }
+        }
+        return row;
+    };
+
+    var timelineModule = {
+		query:"",
         delegateEdit:function(id){
 
         },
-        render:function(entries){
-            var self = this;
-
-            $("#items-list").empty();
-        	var width = $("#items-list").innerWidth();
-        	var step = width/365;
-
-        	var daysCount = {};
-
-        	var getDOY = function(date) {
-        		date = date || new Date();
-				var onejan = new Date(date.getFullYear(),0,1);
-				return Math.ceil((date - onejan) / 86400000);
-			};
-
-        	entries.forEach(function(e){
-
-        		daysCount[e.date] = daysCount[e.date] || 0;
-				daysCount[e.date]++;
+        create:function() {
 
 
-				var date = new Date(e.date);
+            // Instantiate our timeline object.
+            timeline = new links.Timeline(document.getElementById('mytimeline'));
 
-        		$('<div class="entry" item-id="'+e.id+'">'+e.title+'</div>')
-        		.appendTo("#items-list")
-        		.css("position", "absolute")
-        		.css("left", step * getDOY(date))
-        		.css("top", 10 + (daysCount[e.date]*25));
-        	});
+            function onSelect() {
+				var row = getSelectedRow();
+				var item = data[row];
+               console.log("Selecting object : event =", item);
+               console.log("Selecting object : data =", data);
+            }
 
-        	return $("#items-list");
+            // attach an event listener using the links events handler
+            links.events.addListener(timeline, 'select', onSelect);
+            console.log("timeline created");
+
         },
         refresh : function(){
 
-        	var timeline;
-        	var data;
-
-			function getSelectedRow() {
-	            var row = undefined;
-	            var sel = timeline.getSelection();
-	            if (sel.length) {
-	                if (sel[0].row != undefined) {
-	                    row = sel[0].row;
-	                }
-	            }
-	            return row;
-	        }	   
-
+			deep.store("entry").get(this.query)
+			.done(function(entries){
+				data = entries;
+				timeline.draw(data, options);
+			});
+			/*
             data = [
                 {
                     'start': new Date(2010,7,23),
@@ -94,68 +93,19 @@ function(require, deep)
                     'start': new Date(2010,8,4,12,0,0),
                     'content': 'Report<br><img src="img/attachment-icon.png" style="width:32px; height:32px;">'
                 }
-            ];
+            ];*/
 
-            // specify options
-            var options = {
-                'width':  '100%',
-                'height': '300px',
-                'editable': true,   // enable dragging and editing events
-                'style': 'box'
-            };
-
-            // Instantiate our timeline object.
-            timeline = new links.Timeline(document.getElementById('mytimeline'));
-
-            function onSelect() {
-            	var row = getSelectedRow();
-            	var item = data[row];
-               console.log("Selecting object : event =", item);
-               console.log("Selecting object : data =", data);
-            }
-
-            // attach an event listener using the links events handler
-            links.events.addListener(timeline, 'select', onSelect);
-
-            // Draw our timeline with the created data and options
-            timeline.draw(data, options);
-            timeline.addItem({
-            		id:5555,
-                    'start': new Date(2010,7,30),
-                    'content': 'vrrrrrrrrrrrrrrrrr'
-                })
-	        
-            // var self = this;
-            // return deep.all(
-            //     deep.get("swig::/templates/list.html"),
-            //     deep.store("entry").get(this.query)
-            // )
-            // .done(function(res){
-            //     var template = res.shift();
-            //     var entries = res.shift();
-
-            //     if(entries.length === 0)
-            //     	form.add();
-
-            //     var list = self.render(entries);
-
-            //     list.find(".entry")
-            //     .click(function(e){
-            //         e.preventDefault();
-            //         self.delegateEdit($(this).attr("item-id"));
-            //     });
-
-            //     list.find("#search")
-            //     .change(function(e){
-            //         e.preventDefault();
-            //         self.query = $(this).val();
-            //         self.refresh();
-            //     });
-            // });
+            
+            //add an item for test purposes
+   //          timeline.addItem({
+			// 	id:5555,
+			// 	'start': new Date(2010,7,30),
+			// 	'content': 'vrrrrrrrrrrrrrrrrr'
+			// });
         }
     };
 
-    return timeline;
+    return timelineModule;
 });
 
 
