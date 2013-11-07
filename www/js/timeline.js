@@ -33,7 +33,7 @@ function(require, deep)
         },
         create:function() {
 
-
+        	var self = this;
             // Instantiate our timeline object.
             timeline = new links.Timeline(document.getElementById('mytimeline'));
 
@@ -42,6 +42,7 @@ function(require, deep)
 				var item = data[row];
                console.log("Selecting object : event =", item);
                console.log("Selecting object : data =", data);
+               self.delegateEdit(item.id);
             }
 
             // attach an event listener using the links events handler
