@@ -9,13 +9,16 @@
 </head>
 
 <body>
-	<div id="content">
-		<h2>List</h2>
-		<div id="mytimeline"></div>
-		<div id="items-list" style="margin-bottom:20px;"></div>
-		<div id="player"></div>
-		<h2 id="form-title"></h2>
-		<div id="item-form"></div>
+	<div id="content" class="container">
+		<div class="page-header">
+          <h1>SameSame</h1>
+          <p class="lead">Same conditions, Same actions.</p>
+          <p class="lead">Full year planning application based on past experience records</p>
+        </div>
+        <div class="row"><button id="addbutton" class="btn btn-default">add</button><div>
+		<div id="mytimeline" class="row"></div>
+		<h2 id="form-title" class="row"></h2>
+		<div id="item-form" class="row"></div>
 	</div>
   	<script src="./libs/jquery/jquery-2.0.3.min.js"></script>
   	<script src="./libs/swig.min.js"></script>
@@ -23,3 +26,5 @@
   	<script data-main="{{ mainPath }}" src="./libs/require.js"></script>
 </body>
 </html>
+
+

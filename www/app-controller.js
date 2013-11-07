@@ -17,7 +17,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		properties:{
 			start:{ type:"number", description:"a start date for your entry.", "default":new Date().valueOf()},
 			end:{ type:"number", description:"a end date for your entry.", required:false},
-			content:{ type:"string", description:"the html of the entry"}
+			content:{ type:"string", description:"the html of the entry", "default":"Html content here"}
 		}
     };
 
@@ -85,8 +85,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     return function(){
         timeline.create();
         timeline.refresh();
-        $('<button>add</button>')
-		.prependTo("body")
+        $('#addbutton')
 		.click(function(e){
 			e.preventDefault();
 			form.add();
