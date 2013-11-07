@@ -13,7 +13,11 @@
 		<div class="page-header">
           <h1>SameSame</h1>
           <p class="lead">Same conditions, Same actions.</p>
-          <p class="lead">Full year planning application based on past experience records</p>
+          <p class="lead">Full year planning application based on past experience records.
+          	<br>
+          	Be inspired or guided by your past experiences (or other people experiences)
+          	<br>
+          	Live experiences, record them and use them to organize your life</p>
         </div>
         <div class="row"><button id="addbutton" class="btn btn-default">add</button><div>
 		<div id="mytimeline" class="row"></div>
