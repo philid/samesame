@@ -25,6 +25,17 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     timeline.delegateEdit = function(id){
 		form.edit(id);
     };
+    timeline.delegateDelete = function(id){
+		console.log("Deleting item with id : ", id);
+		deep.store("entry")
+		.del(id)
+        .done(function(object){
+            console.log("delete done !!! : ", object);
+        })
+        .fail(function(e){
+            console.log("error while retrieving datas : ", e.status, e.report || e);
+        });
+    };
     
 
     var form = {

@@ -31,6 +31,9 @@ function(require, deep)
         delegateEdit:function(id){
 
         },
+        delegateDelete:function(id){
+
+        },
         create:function() {
 
         	var self = this;
@@ -45,8 +48,18 @@ function(require, deep)
                self.delegateEdit(item.id);
             }
 
+            function onDelete() {
+				var row = getSelectedRow();
+				var item = data[row];
+               console.log("Selecting object : event =", item);
+               console.log("Selecting object : data =", data);
+               self.delegateDelete(item.id);
+            }
+
+
             // attach an event listener using the links events handler
             links.events.addListener(timeline, 'select', onSelect);
+            links.events.addListener(timeline, 'delete', onDelete);
             console.log("timeline created");
 
         },
