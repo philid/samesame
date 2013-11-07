@@ -10,7 +10,6 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     deep.store.jqueryajax.JSON.create("entry", "/entry/");
     deep.protocoles.swig.createDefault();
 
-
     var timeline = require( "./js/timeline.js");
 
     var entrySchema = {
@@ -21,10 +20,10 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		}
     };
 
-
     timeline.delegateEdit = function(id){
 		form.edit(id);
     };
+    
     timeline.delegateDelete = function(id){
 		console.log("Deleting item with id : ", id);
 		deep.store("entry")
@@ -36,7 +35,6 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
             console.log("error while retrieving datas : ", e.status, e.report || e);
         });
     };
-    
 
     var form = {
 		add : function(id)
@@ -81,6 +79,8 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 					d.put(output);
                 d.done(function(success){
                     console.log("object saved : ", success);
+                    $("#form-title").html("");
+                    $("#item-form").html("");
                     timeline.refresh();
                 })
                 .fail(function(e){
@@ -100,6 +100,13 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		.click(function(e){
 			e.preventDefault();
 			form.add();
+		});
+		$("#searchfield")
+		.change(function(e){
+			console.log("Searching with query = ", $(this).val());
+			e.preventDefault();
+			timeline.query = $(this).val();
+			timeline.refresh();
 		});
     };
 });

@@ -19,10 +19,10 @@
           	<br>
           	Live experiences, record them and use them to organize your life</p>
         </div>
-        <div class="row"><button id="addbutton" class="btn btn-default">add</button><div>
-		<div id="mytimeline" class="row"></div>
+        <div class="row"><button id="addbutton" class="btn btn-default">add</button> filter : <input id="searchfield" type="text" value="" /><div>
 		<h2 id="form-title" class="row"></h2>
 		<div id="item-form" class="row"></div>
+		<div id="mytimeline" class="row"></div>
 	</div>
   	<script src="./libs/jquery/jquery-2.0.3.min.js"></script>
   	<script src="./libs/swig.min.js"></script>
