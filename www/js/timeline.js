@@ -67,7 +67,6 @@ function(require, deep)
 				});
 				console.log("Refreshing with data = ", data);
 				timeline.draw(data, options);
-
 			});
         },
         projection : function(){
@@ -75,19 +74,27 @@ function(require, deep)
 			.done(function(entries){
 				data = [];
 				var today = new Date();
-
+				console.log("Building projection data : today =", today);
 				entries.forEach(function (entry) {
-					console.log("Building projection data : today =", today);
 					//changing the year so it is projected after today
-					//entry.start = new Date(entry.start.valueOf());
 					if(entry.start < today.valueOf())
 					{//date is before today so we have to project it (change is year)
-						var dateProjected = new Date(entry.start.valueOf());
-						//console.log("changing date : =", dateProjected);
-						dateProjected.setFullYear(today.getFullYear()+1);
-						//console.log("changed date : =", dateProjected);
-						entry.start = dateProjected.valueOf();
-					}
+						var startDateProjected = new Date(entry.start.valueOf());
+						var startYear = startDateProjected.getFullYear();
+						startDateProjected.setFullYear(today.getFullYear()+1);
+						entry.start = startDateProjected.valueOf();
+
+						if(entry.end)
+						{
+							var endDateProjected = new Date(entry.end.valueOf());
+							var endYear = endDateProjected.getFullYear();
+							if(startYear == endYear)
+								endDateProjected.setFullYear(today.getFullYear()+1);
+							else
+								endDateProjected.setFullYear(today.getFullYear()+1+endYear-startYear);
+
+							entry.end = endDateProjected.valueOf();}
+						}
 				});
 				data = entries;
 				console.log("New entries are : ", entries);
