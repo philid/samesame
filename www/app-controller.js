@@ -72,6 +72,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
             var self = this;
             return deep.ui.fromJSONBind("#item-form", entrySchema)
             .done(function(output){
+				console.log("form save output = ", output);
                 var d = deep.store("entry");
                 if(post)
 					d.post(output);
@@ -100,6 +101,11 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		.click(function(e){
 			e.preventDefault();
 			form.add();
+		});
+		$('#projectbutton')
+		.click(function(e){
+			e.preventDefault();
+			timeline.projection();
 		});
 		$("#searchfield")
 		.change(function(e){

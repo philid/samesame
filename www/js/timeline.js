@@ -12,6 +12,7 @@ function(require, deep)
 		'width':  '100%',
 		'height': '400px',
 		'editable': true,   // enable dragging and editing events
+		'cluster' : true,
 		'style': 'box'
 	};
 
@@ -61,6 +62,35 @@ function(require, deep)
 			deep.store("entry").get(this.query)
 			.done(function(entries){
 				data = entries;
+				data.forEach(function (entry) {
+					entry.start = new Date(entry.start.valueOf());
+				});
+				console.log("Refreshing with data = ", data);
+				timeline.draw(data, options);
+
+			});
+        },
+        projection : function(){
+			deep.store("entry").get(this.query)
+			.done(function(entries){
+				data = [];
+				var today = new Date();
+
+				entries.forEach(function (entry) {
+					console.log("Building projection data : today =", today);
+					//changing the year so it is projected after today
+					//entry.start = new Date(entry.start.valueOf());
+					if(entry.start < today.valueOf())
+					{//date is before today so we have to project it (change is year)
+						var dateProjected = new Date(entry.start.valueOf());
+						//console.log("changing date : =", dateProjected);
+						dateProjected.setFullYear(today.getFullYear()+1);
+						//console.log("changed date : =", dateProjected);
+						entry.start = dateProjected.valueOf();
+					}
+				});
+				data = entries;
+				console.log("New entries are : ", entries);
 				timeline.draw(data, options);
 			});
         }
