@@ -59,45 +59,45 @@ function(require, deep)
             links.events.addListener(timeline, 'delete', onDelete);
         },
         refresh : function(){
-			deep.store("entry").get(this.query)
-			.done(function(entries){
-				data = entries;
-				data.forEach(function (entry) {
-					entry.start = new Date(entry.start.valueOf());
+			deep.store("experience").get(this.query)
+			.done(function(experiences){
+				data = experiences;
+				data.forEach(function (experience) {
+					experience.start = new Date(experience.start.valueOf());
 				});
 				console.log("Refreshing with data = ", data);
 				timeline.draw(data, options);
 			});
         },
         projection : function(){
-			deep.store("entry").get(this.query)
-			.done(function(entries){
+			deep.store("experience").get(this.query)
+			.done(function(experiences){
 				data = [];
 				var today = new Date();
 				console.log("Building projection data : today =", today);
-				entries.forEach(function (entry) {
+				experiences.forEach(function (experience) {
 					//changing the year so it is projected after today
-					if(entry.start < today.valueOf())
+					if(experience.start < today.valueOf())
 					{//date is before today so we have to project it (change is year)
-						var startDateProjected = new Date(entry.start.valueOf());
+						var startDateProjected = new Date(experience.start.valueOf());
 						var startYear = startDateProjected.getFullYear();
 						startDateProjected.setFullYear(today.getFullYear()+1);
-						entry.start = startDateProjected.valueOf();
+						experience.start = startDateProjected.valueOf();
 
-						if(entry.end)
+						if(experience.end)
 						{
-							var endDateProjected = new Date(entry.end.valueOf());
+							var endDateProjected = new Date(experience.end.valueOf());
 							var endYear = endDateProjected.getFullYear();
 							if(startYear == endYear)
 								endDateProjected.setFullYear(today.getFullYear()+1);
 							else
 								endDateProjected.setFullYear(today.getFullYear()+1+endYear-startYear);
 
-							entry.end = endDateProjected.valueOf();}
+							experience.end = endDateProjected.valueOf();}
 						}
 				});
-				data = entries;
-				console.log("New entries are : ", entries);
+				data = experiences;
+				console.log("New experiences are : ", experiences);
 				timeline.draw(data, options);
 			});
         }

@@ -28,7 +28,7 @@ module.exports = function(config){
 	};
 
 	var services = {
-		"/entry/:id?":require("deep-mongo").create("entry", "mongodb://127.0.0.1:27017/samesame", "entry")
+		"/experience/:id?":require("deep-mongo").create("experience", "mongodb://127.0.0.1:27017/samesame", "experience")
 	};
 
 	// ______________________ CONSTRUCT APP

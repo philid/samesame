@@ -7,16 +7,16 @@ THIS IS THE VIEW MAIN APP : so for browser side.
 define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json", "deep-local-storage/index", "deepjs/deep-unit", "deep-data-bind/json-binder", "./js/timeline.js"], function(require, deep){
     
     // creating stores and protocoles
-    deep.store.jqueryajax.JSON.create("entry", "/entry/");
+    deep.store.jqueryajax.JSON.create("experience", "/experience/");
     deep.protocoles.swig.createDefault();
 
     var timeline = require( "./js/timeline.js");
 
-    var entrySchema = {
+    var experienceSchema = {
 		properties:{
-			start:{ type:"number", description:"a start date for your entry.", "default":new Date().valueOf()},
-			end:{ type:"number", description:"a end date for your entry.", required:false},
-			content:{ type:"string", description:"the html of the entry", "default":"Html content here"}
+			start:{ type:"number", description:"a start date for your experience.", "default":new Date().valueOf()},
+			end:{ type:"number", description:"a end date for your experience.", required:false},
+			content:{ type:"string", description:"the html of the experience", "default":"Html content here"}
 		}
     };
 
@@ -26,7 +26,7 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
     
     timeline.delegateDelete = function(id){
 		console.log("Deleting item with id : ", id);
-		deep.store("entry")
+		deep.store("experience")
 		.del(id)
         .done(function(object){
             //console.log("delete done !!! : ", object);
@@ -42,8 +42,8 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		add : function(id)
         {
             var self = this;
-            $("#form-title").html("Add entry ");
-            return deep.ui.toJSONBind(deep.Validator.createDefault(entrySchema), "#item-form", entrySchema)
+            $("#form-title").html("Add experience ");
+            return deep.ui.toJSONBind(deep.Validator.createDefault(experienceSchema), "#item-form", experienceSchema)
             .done(function(binder){
 				$('<button>save</button>')
 				.appendTo("#item-form")
@@ -57,9 +57,9 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
         {
             var self = this;
             $("#form-title").html("Edit : "+id);
-            return deep.get("entry::"+id)
+            return deep.get("experience::"+id)
             .done(function(object){
-                return deep.ui.toJSONBind(object, "#item-form", entrySchema, {
+                return deep.ui.toJSONBind(object, "#item-form", experienceSchema, {
                     delegate:function(controller, property)
                     {
                         return self.save();
@@ -72,10 +72,10 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
         },
         save : function(post){
             var self = this;
-            return deep.ui.fromJSONBind("#item-form", entrySchema)
+            return deep.ui.fromJSONBind("#item-form", experienceSchema)
             .done(function(output){
 				console.log("form save output = ", output);
-                var d = deep.store("entry");
+                var d = deep.store("experience");
                 if(post)
 					d.post(output);
                 else
