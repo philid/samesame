@@ -29,7 +29,9 @@ define(["require" , "deepjs/deep", "deep-swig/index", "deep-jquery-ajax/lib/json
 		deep.store("entry")
 		.del(id)
         .done(function(object){
-            console.log("delete done !!! : ", object);
+            //console.log("delete done !!! : ", object);
+            $("#form-title").html("");
+            $("#item-form").html("");
         })
         .fail(function(e){
             console.log("error while retrieving datas : ", e.status, e.report || e);
