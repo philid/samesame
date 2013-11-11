@@ -84,7 +84,7 @@ function(require, deep)
 						startDateProjected.setFullYear(today.getFullYear()+1);
 						experience.start = startDateProjected.valueOf();
 
-						if(experience.end)
+						if(experience.end && experience.end < today.valueOf())
 						{
 							var endDateProjected = new Date(experience.end.valueOf());
 							var endYear = endDateProjected.getFullYear();
